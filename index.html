@@ -1,0 +1,334 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+
+	<title>WCF by Example</title>
+
+	<meta name="description" content="Introduction to WCF">
+	<meta name="author" content="Michal Dorner">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section data-markdown>
+				<textarea data-template>
+					# WCF
+					## by Example
+					Slides: [https://dorny.github.io/wcf-by-example](https://dorny.github.io/wcf-by-example)
+				</textarea>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					## Agenda
+					
+					* Intorduction to WCF (~10m)
+
+					* Client examples (~20m)
+
+					* Server examples (~40m)
+
+					* Faults, Security, etc. (~20m)
+				</textarea>
+			</section>
+
+			<section data-markdown>
+				## What is WCF?
+			</section>
+
+			<section>
+				WCF is a framework for building service-oriented applications
+			</section>
+
+			<section>
+				<h2>Is WCF dead?</h2>
+				<ul>
+					<li class="fragment">
+						<p>It's old (Microsoft presented WCF first time in 2003)</p>
+					</li>
+					<li class="fragment">
+						<p>Not much improvements in last yars</p>
+					</li>
+					<li class="fragment">
+						<p>No longer preffered for REST API's over HTTP(S)</p>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>WCF is not dead!</h2>
+				<ul>
+					<li class="fragment">
+						<p>Mature technology (same as WPF)</p>
+					</li>
+					<li class="fragment">
+						<p>Has no replacement which covers all use cases</p>
+					</li>
+					<li class="fragment">
+						<p>Plenty of WCF apps in the wild</p>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Supported platforms</h2>
+				<ul>
+					<li class="fragment">
+						<p>.NET Framework (Windows only)</p>
+					</li>
+					<li class="fragment">
+						<p>.NET Core (client side in progress, server side later)</p>
+					</li>
+					<li class="fragment">
+						<p>Mono (mostly works)</p>
+					</li>
+					<ul>
+			</section>
+
+			<section>
+				<h2>When to choose WCF?</h2>
+				<ul>
+					<li class="fragment">
+						<p>SOAP Web Services</p>
+					</li>
+					<li class="fragment">
+						<p>.NET to .NET communication</p>
+					</li>
+					<li class="fragment">
+						<p>Custom protocols (reuse WCF components)</p>
+					</li>
+			</section>
+
+			<section>
+				<h2>When to prefer other technology?</h2>
+				<ul>
+					<li class="fragment">
+						<p>
+							JSON REST full service
+							<ul class="fragment">
+								<li><a href="https://www.asp.net/web-api">ASP.NET Web API</a> / <a href="https://docs.microsoft.com/en-us/aspnet/core">ASP.NET Core</a></li>
+							</ul>
+						</p>
+					</li>
+					<li class="fragment">
+						<p>
+							High performance RPC framework
+							<ul class="fragment">
+								<li><a href="http://www.grpc.io">gRPC</a></li>
+							</ul>
+						</p>
+					</li>
+					<li class="fragment">
+						<p>
+							Message queue (if MSMQ is not required)
+							<ul class="fragment">
+								<li><a href="https://kafka.apache.org">Apache Kafka</a></li>
+							</ul>
+						</p>
+					</li>
+				</ul>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					## Fundamental Concepts
+				</textarea>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					### Message
+					#### Channel
+					#### Endpoint
+					#### Hosting
+				</textarea>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					## Message					
+					All communication between clients and services ultimately results in Message instances being sent and received
+				</textarea>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					#### Message
+					### Channel
+					#### Endpoint
+					#### Hosting
+				</textarea>
+			</section>
+
+			<section>
+				<h2>Message Exchange Patterns</h2>
+				<a href="https://msdn.microsoft.com/en-us/library/aa751829.aspx"><img data-src="img/MessagePatterns.jpeg"></a>
+				<h4>Datagram • Duplex • Request-Response</h4>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					#### Message
+					#### Channel
+					### Endpoint
+					#### Hosting
+				</textarea>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					## [Address](https://msdn.microsoft.com/en-us/library/aa751841.aspx)
+					**Where**: schema://SERVER[:PORT]/path
+					
+					## [Binding](https://msdn.microsoft.com/en-us/library/ms733027.aspx)
+					**How**: Transport & Protocol
+					## [Contract](https://msdn.microsoft.com/en-us/library/aa702732.aspx)
+					**What**: Interface to the service
+				</textarea>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					#### Message
+					#### Channel
+					#### Endpoint
+					### Hosting
+				</textarea>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					## WCF Service hosting
+					
+					* Self-hosting in **any managed .NET** application
+
+					* Hosting in a **Windows service**
+
+					* Hosting in **IIS**
+				</textarea>
+			</section>
+
+			<section>
+				<h2>System Bindings</h2>
+				<ul>
+					<li class="fragment">
+						<p>basicHttpBinding / basicHttpContextBinding</p>
+					</li>
+					<li class="fragment">
+						<p>wsHttpBinding / wsHttpContextBinding</p>
+					</li>
+					<li class="fragment">
+						<p>wsDualHttpBinding</p>
+					</li>
+					<li class="fragment">
+						<p>wsFederationHttpBinding</p>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>System Bindings</h2>
+				<ul>
+					<li class="fragment">
+						<p>netHttpBinding / netHttpsBinding</p>
+					</li>
+					<li class="fragment">
+						<p>netTcpBinding / netTcpContextBinding</p>
+					</li>
+					<li class="fragment">
+						<p>netNamedPipeBinding</p>
+					</li>
+					<li class="fragment">
+						<p>netPeerTcpBinding</p>
+					</li>
+					<li class="fragment">
+						<p>netMsmqBinding</p>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>System Bindings</h2>
+				<ul>
+					<li class="fragment">
+						<p>webHttpBinding</p>
+					</li>
+					<li class="fragment">
+						<p>msmqIntegrationBinding</p>
+					</li>
+					<li class="fragment">
+						<p>udpBinding</p>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>WCF Programming</h2>
+				<p class="fragment">Lets write some code...</p>
+			</section>
+
+			<section data-markdown>
+				<textarea data-template>
+					## Exercise 1
+					1. TODO
+					1. TODO
+					1. ...
+				</textarea>
+			</section>
+
+			<section data-markdown data-transition="convex" style="text-align: left;">
+				# THE END
+			</section>
+
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+
+			history: true,
+
+			slideNumber: true,
+
+			// none/fade/slide/convex/concave/zoom
+			transition: 'none',
+
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/notes/notes.js', async: true },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			],
+		});
+	</script>
+</body>
+
+</html>
